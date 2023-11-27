@@ -13,5 +13,10 @@ export default class UserRoute {
     this.uc = new UserController();
 
     this.router.post(`${API_URL}/users`, this.uc.addUser);
+    this.router.get(`${API_URL}/users`, this.uc.TestBase);
+  }
+
+  public get routes(): Router {
+    return this.router;
   }
 }

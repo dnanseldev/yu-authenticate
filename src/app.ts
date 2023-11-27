@@ -1,7 +1,5 @@
 import express, { Application, Request, Response } from "express";
-//import ServiceNoteRoute from "./infra/routes/service-note.route";
-import "dotenv/config";
-//import mongoose from "mongoose";
+import UserRoute from "./infra/routes/user.route";
 
 export default class App {
   public server: Application;
@@ -14,6 +12,7 @@ export default class App {
 
   private bootstrappingMiddlewares() {
     this.server.use(express.json());
+    this.server.use(new UserRoute().routes);
     // this.server.use(new ServiceNoteRoute().routes);
   }
 

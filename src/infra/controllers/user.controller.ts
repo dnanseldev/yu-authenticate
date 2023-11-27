@@ -32,4 +32,10 @@ export default class UserController {
 
     return newUser;
   };
+
+  TestBase = async (req: Request, res: Response): Promise<void> => {
+    res.status(200).json({
+      status: "success that's working!",
+    });
+  };
 }
