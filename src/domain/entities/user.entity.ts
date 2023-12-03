@@ -28,7 +28,7 @@ export class User {
   private created_at: Date = new Date(Date.now());
   private project_roles = {} as ProjectRoles;
 
-  constructor(readonly user: UserDTO) {}
+  constructor(readonly opt_user?: UserDTO) {}
 
   set newPassword(crypted_password: unknown) {
     /*
@@ -44,26 +44,26 @@ export class User {
     return this._classState === FragmentState.isValid;
   }
 
-  public isInValidEmail(opt_email?: string): boolean {
+  public isValidEmail(opt_email?: string): boolean {
     const re = /\S+@\S+\.\S+/g;
 
     if (opt_email !== "") return re.exec(opt_email!) ? true : false;
     else return re.exec(this.email) ? true : false;
   }
 
-  public isInValidName(opt_name?: string): boolean {
+  public isValidName(opt_name?: string): boolean {
     const re = /^[\w\s]+$/g;
 
     if (opt_name !== "")
-      return re.exec(opt_name!) && this.name.length >= 3 ? true : false;
+      return re.exec(opt_name!) && opt_name!.length >= 3 ? true : false;
     else return re.exec(this.name) && this.name.length >= 3 ? true : false;
   }
 
-  public isInValidUsername(opt_username?: string): boolean {
+  public isValidUsername(opt_username?: string): boolean {
     const re = /^[\w\s]+$/g;
 
     if (opt_username !== "")
-      return re.exec(opt_username!) && this.name.length >= 3 ? true : false;
+      return re.exec(opt_username!) && opt_username!.length >= 3 ? true : false;
     return re.exec(this.username) && this.username.length >= 3 ? true : false;
   }
 
@@ -77,7 +77,7 @@ export class User {
     };
     */
 
-    if (this.isInValidEmail()) {
+    if (this.isValidEmail()) {
       fields_state.group.push({
         field: "Email",
         state: "invalid",
@@ -86,7 +86,7 @@ export class User {
       fields_state.invalid_qty = amount++;
     }
 
-    if (this.isInValidName()) {
+    if (this.isValidName()) {
       fields_state.group.push({
         field: "Name",
         state: "invalid",
@@ -95,7 +95,7 @@ export class User {
       fields_state.invalid_qty = amount++;
     }
 
-    if (this.isInValidUsername()) {
+    if (this.isValidUsername()) {
       fields_state.group.push({
         field: "Username",
         state: "invalid",
