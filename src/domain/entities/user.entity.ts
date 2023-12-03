@@ -1,4 +1,5 @@
 import { ProjectRoles } from "../agregations/project-roles.ag";
+import { FieldsValidation, FragmentState } from "../utilities/types.utils";
 
 export interface UserDTO {
   readonly eID: string;
@@ -13,14 +14,9 @@ export interface UserDTO {
   readonly project_roles: ProjectRoles;
 }
 
-type FieldValidation = {
-  field: string;
-  state: string;
-  msg: string;
-  invalid_qty: number;
-};
-
 export class User {
+  private _classState: FragmentState = FragmentState.failed;
+
   private eID: string = "";
   private name: string = "";
   private age: number = 0;
@@ -44,47 +40,72 @@ export class User {
     this.crypted_password = crypted_password;
   }
 
-  isInValidEmail(): boolean {
-    return false;
+  get classState(): boolean {
+    return this._classState === FragmentState.isValid;
   }
 
-  isInValidName(): boolean {
-    return false;
+  public isInValidEmail(opt_email?: string): boolean {
+    const re = /\S+@\S+\.\S+/g;
+
+    if (opt_email !== "") return re.exec(opt_email!) ? true : false;
+    else return re.exec(this.email) ? true : false;
   }
 
-  isInValidUsername(): boolean {
-    return false;
+  public isInValidName(opt_name?: string): boolean {
+    const re = /^[\w\s]+$/g;
+
+    if (opt_name !== "")
+      return re.exec(opt_name!) && this.name.length >= 3 ? true : false;
+    else return re.exec(this.name) && this.name.length >= 3 ? true : false;
   }
 
-  validateFields(): [FieldValidation] {
+  public isInValidUsername(opt_username?: string): boolean {
+    const re = /^[\w\s]+$/g;
+
+    if (opt_username !== "")
+      return re.exec(opt_username!) && this.name.length >= 3 ? true : false;
+    return re.exec(this.username) && this.username.length >= 3 ? true : false;
+  }
+
+  public validateFields(): FieldsValidation {
+    const fields_state = {} as FieldsValidation;
     let amount = 0;
-    const fields_state: [FieldValidation] = [
-      { field: "", state: "", msg: "", invalid_qty: 0 },
-    ];
+    /*
+    const fields_state1: FieldsValidation = {
+      group: [{ field: "", state: "", msg: "" }],
+      invalid_qty: 0,
+    };
+    */
 
-    if (this.isInValidEmail())
-      fields_state.push({
+    if (this.isInValidEmail()) {
+      fields_state.group.push({
         field: "Email",
         state: "invalid",
         msg: "Email badly formatted",
-        invalid_qty: amount++,
       });
+      fields_state.invalid_qty = amount++;
+    }
 
-    if (this.isInValidName())
-      fields_state.push({
+    if (this.isInValidName()) {
+      fields_state.group.push({
         field: "Name",
         state: "invalid",
         msg: "Name is inadequaded",
-        invalid_qty: amount++,
       });
+      fields_state.invalid_qty = amount++;
+    }
 
-    if (this.isInValidUsername())
-      fields_state.push({
+    if (this.isInValidUsername()) {
+      fields_state.group.push({
         field: "Username",
         state: "invalid",
         msg: "Username is invalid",
-        invalid_qty: amount++,
       });
+      fields_state.invalid_qty = amount++;
+    }
+
+    if (fields_state.invalid_qty === 0)
+      this._classState = FragmentState.isValid;
 
     return fields_state;
   }
