@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import UserUseCases from "../../app/use_cases/users.use-case";
 import MongoDBUserRepository from "../repositories/mongodb-user.repository";
-import { UserDTO } from "../../domain/entities/user.entity";
+import { User, UserDTO } from "../../domain/entities/user.entity";
 
 export default class UserController {
   user_ue: UserUseCases;
@@ -11,12 +11,14 @@ export default class UserController {
   }
 
   addUser = async (req: Request, res: Response): Promise<Partial<UserDTO>> => {
-    const newUser = req.body as UserDTO;
+    const userDto = req.body as UserDTO;
+    const user: User = new User(userDto);
 
     if (!this.user_ue.isAuthorized(newUser.project_roles)) {
       res.status(401).json({
         msg: "Not Allowed!",
       });
+      return;
     }
 
     await this.user_ue.saveUser(newUser);
