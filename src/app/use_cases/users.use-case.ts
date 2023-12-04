@@ -1,4 +1,4 @@
-import { UserDTO } from "../../domain/entities/user.entity";
+import { UserDTO } from "../../domain/entities/user/user.entity";
 import { ProjectRoles } from "../../domain/agregations/project-roles.ag";
 import ICommumRepository from "../interfaces/base.repository";
 import { exit } from "process";

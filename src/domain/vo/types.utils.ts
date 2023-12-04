@@ -1,3 +1,5 @@
+import { Result } from "./result";
+
 enum FragmentState {
   isValid,
   failed,
@@ -14,4 +16,8 @@ type FieldsValidation = {
   invalid_qty: number;
 };
 
-export { FieldsValidation, FragmentState };
+interface TCreator<T, R extends Result<T>> {
+  factoryMethod(...args: any): R;
+}
+
+export { FieldsValidation, FragmentState, TCreator };

@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import UserUseCases from "../../app/use_cases/users.use-case";
 import MongoDBUserRepository from "../repositories/mongodb-user.repository";
-import { User, UserDTO } from "../../domain/entities/user.entity";
+import { User, UserDTO } from "../../domain/entities/user/user.entity";
 
 export default class UserController {
   user_ue: UserUseCases;

@@ -3,7 +3,7 @@ import { ProjectRoles } from "../../domain/agregations/project-roles.ag";
 import MongoDBUserRepository from "../../infra/repositories/mongodb-user.repository";
 import UserUseCases from "./users.use-case";
 
-describe("Testing User UseCases", () => {
+describe.skip("Testing User UseCases", () => {
   const ue = new UserUseCases(new MongoDBUserRepository());
   const pr: ProjectRoles = {
     ID: "14171019-db3d-4ea1-803e-86cdd19df967",

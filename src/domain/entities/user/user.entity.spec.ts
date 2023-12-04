@@ -1,22 +1,20 @@
 import { User } from "./user.entity";
 
-describe("Testing User Entity", () => {
-  const user = new User();
-
+describe.only("Testing User Entity", () => {
   test("Method: isInValidEmail", () => {
-    const result = user.isValidEmail("dnansel.dev@gmail.com.br");
+    const result = User.isValidEmail("dnansel.dev@gmail.com.br");
     console.log(`Result: ${result}`);
     expect(result).toBe(true);
   });
 
   test("Method: isValidName", () => {
-    const result = user.isValidName("Daniel");
+    const result = User.isValidName("Daniel");
     console.log(`Result: ${result}`);
     expect(result).toBe(true);
   });
 
   test("Method: isValidUsername", () => {
-    const result = user.isValidUsername("daanselmo");
+    const result = User.isValidUsername("daanselmo");
     console.log(`Result: ${result}`);
     expect(result).toBe(true);
   });

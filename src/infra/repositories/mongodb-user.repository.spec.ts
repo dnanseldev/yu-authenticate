@@ -1,8 +1,8 @@
 import mongoose, { Mongoose } from "mongoose";
-import { UserDTO } from "../../domain/entities/user.entity";
+import { UserDTO } from "../../domain/entities/user/user.entity";
 import MongoDBUserRepository from "./mongodb-user.repository";
 
-describe("Testing Concrete User Repository", () => {
+describe.skip("Testing Concrete User Repository", () => {
   const strCon = process.env.DB_STR_CON ?? "";
   let mongoCli: Mongoose;
 

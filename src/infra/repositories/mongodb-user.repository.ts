@@ -1,5 +1,5 @@
 import ICommumRepository from "../../app/interfaces/base.repository";
-import { UserDTO } from "../../domain/entities/user.entity";
+import { UserDTO } from "../../domain/entities/user/user.entity";
 import mongoose from "mongoose";
 import UserModel from "../models/user.model";
 import "dotenv/config";
