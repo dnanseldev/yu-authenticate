@@ -12,18 +12,13 @@ export interface UserDTO {
   password: string;
   readonly created_at: Date;
   readonly project_roles: ProjectRoles;
+  fields_state: FieldsValidation;
 }
 
 export class User {
-  public static fields_state = {} as FieldsValidation;
-  private static _all_fields_valid: FragmentState = FragmentState.failed;
   private crypted_password: unknown;
 
-  private user_dto?: UserDTO;
-
-  constructor(readonly out_user: UserDTO) {
-    this.user_dto = out_user;
-  }
+  constructor(readonly user_dto: UserDTO) {}
 
   set newPassword(crypted_password: unknown) {
     /*
@@ -35,8 +30,8 @@ export class User {
     this.crypted_password = crypted_password;
   }
 
-  get classState(): boolean {
-    return User._all_fields_valid === FragmentState.isValid;
+  get validUserDto() {
+    return this.user_dto;
   }
 
   public static isValidEmail(opt_email?: string): boolean {
@@ -56,43 +51,4 @@ export class User {
 
     return re.exec(opt_username!) && opt_username!.length >= 3 ? true : false;
   }
-
-  /*
-  public static validateFields(): FieldsValidation {
-    const fields_state = {} as FieldsValidation;
-    let amount = 0;
-
-    if (!this.isValidEmail()) {
-      fields_state.group.push({
-        field: "Email",
-        state: "invalid",
-        msg: "Email badly formatted",
-      });
-      fields_state.invalid_qty = amount++;
-    }
-
-    if (!this.isValidName()) {
-      fields_state.group.push({
-        field: "Name",
-        state: "invalid",
-        msg: "Name is inadequaded",
-      });
-      fields_state.invalid_qty = amount++;
-    }
-
-    if (!this.isValidUsername()) {
-      fields_state.group.push({
-        field: "Username",
-        state: "invalid",
-        msg: "Username is invalid",
-      });
-      fields_state.invalid_qty = amount++;
-    }
-
-    if (fields_state.invalid_qty === 0)
-      this._all_fields_valid = FragmentState.isValid;
-
-    return fields_state;
-  }
-  */
 }

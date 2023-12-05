@@ -2,6 +2,9 @@ import { Request, Response } from "express";
 import UserUseCases from "../../app/use_cases/users.use-case";
 import MongoDBUserRepository from "../repositories/mongodb-user.repository";
 import { User, UserDTO } from "../../domain/entities/user/user.entity";
+import { UserFactory } from "../../domain/vo/factories";
+import { Result } from "../../domain/vo/result";
+import { FieldsValidation } from "../../domain/vo/types.utils";
 
 export default class UserController {
   user_ue: UserUseCases;
@@ -11,28 +14,33 @@ export default class UserController {
   }
 
   addUser = async (req: Request, res: Response): Promise<Partial<UserDTO>> => {
-    const userDto = req.body as UserDTO;
-    const user: User = new User(userDto);
+    const user_dto = req.body as UserDTO;
 
-    if (!this.user_ue.isAuthorized(newUser.project_roles)) {
+    const user_or_error: Result<User> = new UserFactory().factoryMethod(
+      user_dto
+    );
+
+    if (user_or_error.isFailure) {
       res.status(401).json({
-        msg: "Not Allowed!",
+        error: user_or_error.error,
+        validation: user_dto.fields_state.group,
       });
-      return;
     }
 
-    await this.user_ue.saveUser(newUser);
+    let entity_user: User = user_or_error.getValue();
+
+    await this.user_ue.saveUser(entity_user.user_dto);
 
     res.status(201).json({
       status: "success",
       data: {
-        user: newUser,
+        user: entity_user.user_dto,
       },
     });
 
-    console.log(newUser);
+    console.log(entity_user.user_dto);
 
-    return newUser;
+    return entity_user.user_dto;
   };
 
   TestBase = async (req: Request, res: Response): Promise<void> => {
