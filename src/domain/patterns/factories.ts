@@ -1,6 +1,6 @@
 import { User, UserDTO } from "../entities/user/user.entity";
 import { Result } from "./result";
-import { FieldsValidation, TCreator } from "./types.utils";
+import { ErrorValidation, TCreator } from "../vo/types.utils";
 
 export class UserFactory implements TCreator<User, Result<User>> {
   factoryMethod(user_dto: UserDTO): Result<User> {

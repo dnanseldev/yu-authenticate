@@ -1,5 +1,5 @@
 import { ProjectRoles } from "../../agregations/project-roles.ag";
-import { FieldsValidation, FragmentState } from "../../vo/types.utils";
+import { ErrorValidation, FragmentState } from "../../vo/types.utils";
 
 export interface UserDTO {
   readonly eID: string;
@@ -12,7 +12,7 @@ export interface UserDTO {
   password: string;
   readonly created_at: Date;
   readonly project_roles: ProjectRoles;
-  fields_state: FieldsValidation;
+  fields_state: ErrorValidation;
 }
 
 export class User {

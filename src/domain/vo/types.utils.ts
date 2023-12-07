@@ -1,11 +1,11 @@
-import { Result } from "./result";
+import { Result } from "../patterns/result";
 
 enum FragmentState {
   isValid,
   failed,
 }
 
-type FieldsValidation = {
+type ErrorValidation = {
   group: [
     {
       field: string;
@@ -20,4 +20,4 @@ interface TCreator<T, R extends Result<T>> {
   factoryMethod(...args: any): R;
 }
 
-export { FieldsValidation, FragmentState, TCreator };
+export { ErrorValidation, FragmentState, TCreator };
