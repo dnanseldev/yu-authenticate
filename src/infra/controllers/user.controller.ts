@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import UserUseCases from "../../app/use_cases/users.use-case";
+import UserUseCases from "../../app/use_cases/users/users.use-case";
 import MongoDBUserRepository from "../repositories/mongodb-user.repository";
 import { User, UserDTO } from "../../domain/entities/user/user.entity";
 import { UserFactory } from "../../domain/patterns/factories";
 import { Result } from "../../domain/patterns/result";
+import Services from "../../app/use_cases/services/services";
 
 export default class UserController {
   user_ue: UserUseCases;
@@ -28,18 +29,18 @@ export default class UserController {
 
     let user: User = entity_or_error.getValue();
 
-    await this.user_ue.saveUser(user.user_dto);
+    await this.user_ue.saveUser(user);
 
     res.status(201).json({
       status: "success",
       data: {
-        user: user.user_dto,
+        user: user.validUserDto,
       },
     });
 
-    console.log(user.user_dto);
+    console.log(user.validUserDto);
 
-    return user.user_dto;
+    return user.validUserDto;
   };
 
   TestBase = async (req: Request, res: Response): Promise<void> => {

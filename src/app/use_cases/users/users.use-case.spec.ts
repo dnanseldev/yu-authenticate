@@ -1,6 +1,6 @@
 import { assert } from "console";
-import { ProjectRoles } from "../../domain/agregations/project-roles.ag";
-import MongoDBUserRepository from "../../infra/repositories/mongodb-user.repository";
+import { ProjectRoles } from "../../../domain/agregations/project-roles.ag";
+import MongoDBUserRepository from "../../../infra/repositories/mongodb-user.repository";
 import UserUseCases from "./users.use-case";
 
 describe.skip("Testing User UseCases", () => {
