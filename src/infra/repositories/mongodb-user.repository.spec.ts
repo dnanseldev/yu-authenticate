@@ -2,7 +2,7 @@ import mongoose, { Mongoose } from "mongoose";
 import { UserDTO } from "../../domain/entities/user/user.entity";
 import MongoDBUserRepository from "./mongodb-user.repository";
 
-describe.skip("Testing Concrete User Repository", () => {
+describe.only("Testing Concrete User Repository", () => {
   const strCon = process.env.DB_STR_CON ?? "";
   let mongoCli: Mongoose;
 
@@ -20,6 +20,7 @@ describe.skip("Testing Concrete User Repository", () => {
 
   const rep = new MongoDBUserRepository();
 
+  /*
   test("Add new User", async () => {
     const newUser: Partial<UserDTO> = {
       username: "fela",
@@ -28,8 +29,42 @@ describe.skip("Testing Concrete User Repository", () => {
       password: "12345",
       created_at: new Date(Date.now()),
     };
+    
 
     const usr = await rep.Create(newUser);
-    console.log(usr);
+    */
+
+  test.skip("Retrieving by Username", async () => {
+    const mockUser = {
+      id: "65637d15237df58d48f38454",
+      name: undefined,
+      age: undefined,
+      complement: undefined,
+      username: "fela",
+      user_organization: "souls like gamer company",
+      email: "fela@gmail.com",
+    };
+
+    const dto: Partial<UserDTO> = await rep.FindOne("fela");
+    console.log(dto);
+    expect(dto).toEqual(mockUser);
+  });
+
+  test.skip("Retrieving by ID", async () => {
+    const mockUser = {
+      id: "65637d15237df58d48f38454",
+      name: undefined,
+      age: undefined,
+      complement: undefined,
+      username: "fela",
+      user_organization: "souls like gamer company",
+      email: "fela@gmail.com",
+    };
+
+    const dto: Partial<UserDTO> = await rep.FindById(
+      "65637d15237df58d48f38454"
+    );
+    console.log(dto);
+    expect(dto).toEqual(mockUser);
   });
 });

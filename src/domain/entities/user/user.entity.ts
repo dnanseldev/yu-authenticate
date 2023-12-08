@@ -2,7 +2,7 @@ import { ProjectRoles } from "../../agregations/project-roles.ag";
 import { ErrorValidation, FragmentState } from "../../vo/types.utils";
 
 export interface UserDTO {
-  readonly eID: any;
+  readonly id: any;
   readonly name: string;
   readonly age: number;
   readonly complement: string;
@@ -18,7 +18,7 @@ export interface UserDTO {
 }
 
 export class User {
-  private eID: any;
+  private id: any;
   private name: string;
   private age: number;
   private complement: string;
@@ -33,7 +33,7 @@ export class User {
   private fields_state: ErrorValidation;
 
   constructor(readonly user_args_dto: UserDTO) {
-    this.eID = user_args_dto.eID;
+    this.id = user_args_dto.id;
     this.name = user_args_dto.name;
     this.age = user_args_dto.age;
     this.complement = user_args_dto.complement;
@@ -63,7 +63,7 @@ export class User {
 
   get validUserDto() {
     const validated_user_dto: UserDTO = {
-      eID: this.eID,
+      id: this.id,
       name: this.name,
       age: this.age,
       email: this.email,

@@ -3,6 +3,7 @@ export default interface ICommumRepository<T> {
   Update(id: string, item: T): Promise<void>;
   Delete(id: string): Promise<void>;
   Find(item: T): Promise<T[]>;
-  FindOne(id: string): Promise<T | Partial<T>>;
+  FindOne(field: string): Promise<T | Partial<T>>;
+  FindById(id: string): Promise<T | Partial<T>>;
   FindAll(): Promise<T[]>;
 }

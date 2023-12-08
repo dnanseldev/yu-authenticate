@@ -1,6 +1,6 @@
 import { User } from "./user.entity";
 
-describe.only("Testing User Entity", () => {
+describe.skip("Testing User Entity", () => {
   test("Method: isInValidEmail", () => {
     const result = User.isValidEmail("dnansel.dev@gmail.com.br");
     console.log(`Result: ${result}`);

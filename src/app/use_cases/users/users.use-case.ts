@@ -12,7 +12,7 @@ export default class UserUseCases {
   }
 
   async authenticateUser(user: User): Promise<boolean> {
-    const newTkn = Services.generateToken(user.user_args_dto.eID);
+    const newTkn = Services.generateToken(user.user_args_dto.id);
     user.newToken(newTkn);
     return true;
   }
