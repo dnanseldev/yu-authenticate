@@ -3,6 +3,7 @@ import { UserDTO } from "../../domain/entities/user/user.entity";
 import mongoose from "mongoose";
 import UserModel from "../models/user.model";
 import "dotenv/config";
+import { promises } from "dns";
 
 export default class MongoDBUserRepository
   implements ICommumRepository<UserDTO>
@@ -22,7 +23,7 @@ export default class MongoDBUserRepository
       username: item.username,
       user_organization: item.user_organization,
       email: item.email,
-      password: item.crypted_password,
+      password: item.final_password,
       created_at: item.created_at,
     });
 
@@ -44,7 +45,7 @@ export default class MongoDBUserRepository
   }
 
   async FindOne(field: string): Promise<UserDTO | Partial<UserDTO>> {
-    const userExists = await UserModel.findOne({ username: field });
+    const userExists = await UserModel.findOne({ field });
     const user_dto: Partial<UserDTO> = {
       id: userExists?.id!,
       name: userExists?.name!,

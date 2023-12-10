@@ -19,5 +19,10 @@ type ErrorValidation = {
 interface TCreator<T, R extends Result<T>> {
   factoryMethod(...args: any): R;
 }
+type Login = {
+  email: string;
+  username: string;
+  password: string;
+};
 
-export { ErrorValidation, FragmentState, TCreator };
+export { ErrorValidation, FragmentState, TCreator, Login };

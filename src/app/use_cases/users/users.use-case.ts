@@ -3,6 +3,9 @@ import { ProjectRoles } from "../../../domain/agregations/project-roles.ag";
 import ICommumRepository from "../../interfaces/base.repository";
 import { exit } from "process";
 import Services from "../services/services";
+import { Login } from "../../../domain/vo/types.utils";
+import { Result } from "../../../domain/patterns/result";
+import { UserFactory } from "../../../domain/patterns/factories";
 
 export default class UserUseCases {
   private repository: ICommumRepository<UserDTO>;
@@ -11,14 +14,24 @@ export default class UserUseCases {
     this.repository = repository;
   }
 
-  async authenticateUser(user: User): Promise<boolean> {
+  async doLogin(login: Login): Promise<UserDTO | Partial<UserDTO>> {
+    const tmp_dto = await this.repository.FindOne(login.username);
+    const e_user = new User(tmp_dto as UserDTO);
+
+    if (Services.isMatch(login.password, e_user.validUserDto.final_password))
+      this.authorizeUser(e_user);
+
+    return e_user.validUserDto;
+  }
+
+  async authorizeUser(user: User): Promise<boolean> {
     const newTkn = Services.generateToken(user.user_args_dto.id);
     user.newToken(newTkn);
     return true;
   }
 
   async saveUser(user: User): Promise<UserDTO | Partial<UserDTO>> {
-    const newPwd = Services.encryptPassword(user.partial_password);
+    const newPwd = Services.encryptPassword(user.tmp_password);
     user.newPassword(newPwd);
     return await this.repository.Create(user.validUserDto);
   }

@@ -9,8 +9,8 @@ export interface UserDTO {
   readonly username: string;
   readonly user_organization: string;
   readonly email: string;
-  partial_password: string;
-  crypted_password: any;
+  tmp_password: string;
+  final_password: any;
   token: any;
   readonly created_at: Date;
   readonly project_roles: ProjectRoles;
@@ -25,8 +25,8 @@ export class User {
   private username: string;
   private user_organization: string;
   private email: string;
-  readonly partial_password: string;
-  private crypted_password: any;
+  readonly tmp_password: string;
+  private final_password: any;
   private token: any;
   readonly created_at: Date;
   private project_roles: ProjectRoles;
@@ -40,8 +40,8 @@ export class User {
     this.username = user_args_dto.username;
     this.user_organization = user_args_dto.user_organization;
     this.email = user_args_dto.email;
-    this.partial_password = user_args_dto.partial_password;
-    this.crypted_password = user_args_dto.crypted_password;
+    this.tmp_password = user_args_dto.tmp_password;
+    this.final_password = user_args_dto.final_password;
     this.created_at = new Date(Date.now());
     this.project_roles = user_args_dto.project_roles;
     this.fields_state = user_args_dto.fields_state;
@@ -54,7 +54,7 @@ export class User {
     const hashed_pwd = bcrypt.hash(this.user.password, salt);
     this.crypted_password = hashed_pwd;
     */
-    this.crypted_password = crypted_password;
+    this.final_password = crypted_password;
   }
 
   set newToken(token: any) {
@@ -70,9 +70,9 @@ export class User {
       complement: this.complement,
       username: this.username,
       user_organization: this.user_organization,
-      partial_password: "",
+      tmp_password: "",
       token: this.token,
-      crypted_password: this.crypted_password,
+      final_password: this.final_password,
       created_at: this.created_at,
       project_roles: this.project_roles,
       fields_state: this.fields_state,
