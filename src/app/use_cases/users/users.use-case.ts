@@ -26,13 +26,13 @@ export default class UserUseCases {
 
   async authorizeUser(user: User): Promise<boolean> {
     const newTkn = Services.generateToken(user.user_args_dto.id);
-    user.newToken(newTkn);
+    user.newToken = newTkn;
     return true;
   }
 
   async saveUser(user: User): Promise<UserDTO | Partial<UserDTO>> {
-    const newPwd = Services.encryptPassword(user.tmp_password);
-    user.newPassword(newPwd);
+    const newPwd = await Services.encryptPassword(user.tmp_password);
+    user.newPassword = newPwd;
     return await this.repository.Create(user.validUserDto);
   }
 

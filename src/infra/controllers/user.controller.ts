@@ -15,6 +15,7 @@ export default class UserController {
 
   addUser = async (req: Request, res: Response): Promise<Partial<UserDTO>> => {
     const user_dto = req.body as UserDTO;
+    user_dto.fields_state.invalid_qty = 0;
 
     const entity_or_error: Result<User> = new UserFactory().factoryMethod(
       user_dto

@@ -1,5 +1,5 @@
 import { ProjectRoles } from "../../agregations/project-roles.ag";
-import { ErrorValidation, FragmentState } from "../../vo/types.utils";
+import { ErrorValidation } from "../../vo/types.utils";
 
 export interface UserDTO {
   readonly id: any;
@@ -9,9 +9,9 @@ export interface UserDTO {
   readonly username: string;
   readonly user_organization: string;
   readonly email: string;
-  tmp_password: string;
-  final_password: any;
-  token: any;
+  readonly tmp_password: string;
+  readonly final_password: any;
+  readonly token: any;
   readonly created_at: Date;
   readonly project_roles: ProjectRoles;
   fields_state: ErrorValidation;
