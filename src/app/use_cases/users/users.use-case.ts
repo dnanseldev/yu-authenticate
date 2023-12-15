@@ -14,14 +14,14 @@ export default class UserUseCases {
     this.repository = repository;
   }
 
-  async doLogin(login: Login): Promise<UserDTO | Partial<UserDTO>> {
+  async doLogin(login: Login): Promise<User> {
     const tmp_dto = await this.repository.FindOne(login.username);
     const e_user = new User(tmp_dto as UserDTO);
 
     if (Services.isMatch(login.password, e_user.validUserDto.final_password))
-      this.authorizeUser(e_user);
+      e_user.authentication = true;
 
-    return e_user.validUserDto;
+    return e_user;
   }
 
   async authorizeUser(user: User): Promise<boolean> {

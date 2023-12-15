@@ -13,6 +13,7 @@ export interface UserDTO {
   readonly final_password: any;
   readonly token: any;
   readonly created_at: Date;
+  readonly is_authenticated: boolean;
   readonly project_roles: ProjectRoles;
   fields_state: ErrorValidation;
 }
@@ -31,6 +32,7 @@ export class User {
   readonly created_at: Date;
   private project_roles: ProjectRoles;
   private fields_state: ErrorValidation;
+  private is_authenticated: boolean;
 
   constructor(readonly user_args_dto: UserDTO) {
     this.id = user_args_dto.id;
@@ -45,6 +47,7 @@ export class User {
     this.created_at = new Date(Date.now());
     this.project_roles = user_args_dto.project_roles;
     this.fields_state = user_args_dto.fields_state;
+    this.is_authenticated = user_args_dto.is_authenticated;
   }
 
   set newPassword(crypted_password: any) {
@@ -59,6 +62,14 @@ export class User {
 
   set newToken(token: any) {
     this.token = token;
+  }
+
+  set authentication(auth: boolean) {
+    this.is_authenticated = auth;
+  }
+
+  get authenticated() {
+    return this.is_authenticated;
   }
 
   get validUserDto() {
@@ -76,6 +87,7 @@ export class User {
       created_at: this.created_at,
       project_roles: this.project_roles,
       fields_state: this.fields_state,
+      is_authenticated: this.is_authenticated,
     };
 
     return validated_user_dto;

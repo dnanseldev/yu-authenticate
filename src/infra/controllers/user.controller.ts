@@ -4,7 +4,7 @@ import MongoDBUserRepository from "../repositories/mongodb-user.repository";
 import { User, UserDTO } from "../../domain/entities/user/user.entity";
 import { UserFactory } from "../../domain/patterns/factories";
 import { Result } from "../../domain/patterns/result";
-import Services from "../../app/use_cases/services/services";
+import { Login } from "../../domain/vo/types.utils";
 
 export default class UserController {
   user_ue: UserUseCases;
@@ -12,6 +12,27 @@ export default class UserController {
   constructor() {
     this.user_ue = new UserUseCases(new MongoDBUserRepository());
   }
+
+  doLogin = async (req: Request, res: Response): Promise<void> => {
+    //Todo
+    const login_data = req.body as Login;
+    const user = await this.user_ue.doLogin(login_data);
+
+    if (user.authenticated) {
+      this.user_ue.authorizeUser(user);
+
+      res.status(201).json({
+        status: "success",
+        data: {
+          user: user.validUserDto,
+        },
+      });
+    } else {
+      res.status(401).json({
+        status: "Not allowed",
+      });
+    }
+  };
 
   addUser = async (req: Request, res: Response): Promise<Partial<UserDTO>> => {
     const user_dto = req.body as UserDTO;
