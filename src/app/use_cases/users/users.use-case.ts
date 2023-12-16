@@ -4,8 +4,6 @@ import ICommumRepository from "../../interfaces/base.repository";
 import { exit } from "process";
 import Services from "../services/services";
 import { Login } from "../../../domain/vo/types.utils";
-import { Result } from "../../../domain/patterns/result";
-import { UserFactory } from "../../../domain/patterns/factories";
 
 export default class UserUseCases {
   private repository: ICommumRepository<UserDTO>;
@@ -17,8 +15,14 @@ export default class UserUseCases {
   async doLogin(login: Login): Promise<User> {
     const tmp_dto = await this.repository.FindOne(login.username);
     const e_user = new User(tmp_dto as UserDTO);
+    e_user.newPassword = tmp_dto.final_password;
 
-    if (Services.isMatch(login.password, e_user.validUserDto.final_password!))
+    if (
+      await Services.isMatch(
+        login.password,
+        e_user.validUserDto.final_password!
+      )
+    )
       e_user.authentication = true;
 
     return e_user;

@@ -10,9 +10,12 @@ export default class Services {
     return hashed_pwd;
   }
 
-  public static isMatch(password: string, found_user: UserDTO): boolean {
+  public static async isMatch(
+    password: string,
+    encrypted_pwd: string
+  ): Promise<boolean> {
     //const found_user = await this.repository.FindById(user.user_args_dto.id);
-    const match = bcrypt.compareSync(password, found_user.final_password)
+    const match = (await bcrypt.compare(password, encrypted_pwd))
       ? true
       : false;
 

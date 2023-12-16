@@ -43,7 +43,7 @@ export class User {
     this.user_organization = user_args_dto.user_organization;
     this.email = user_args_dto.email;
     this.tmp_password = user_args_dto.tmp_password;
-    this.final_password = user_args_dto.final_password;
+    //this.final_password = user_args_dto.final_password;
     this.created_at = new Date(Date.now());
     this.project_roles = user_args_dto.project_roles;
     this.fields_state = user_args_dto.fields_state;

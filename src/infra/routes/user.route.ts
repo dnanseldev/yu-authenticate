@@ -12,7 +12,7 @@ export default class UserRoute {
     this.router = Router();
     this.uc = new UserController();
 
-    this.router.get(`${API_URL}/users/login`, this.uc.doLogin);
+    this.router.post(`${API_URL}/users/login`, this.uc.doLogin);
     this.router.post(`${API_URL}/users`, this.uc.addUser);
     this.router.get(`${API_URL}/users`, this.uc.TestBase);
   }
