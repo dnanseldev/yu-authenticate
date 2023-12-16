@@ -18,7 +18,7 @@ export default class UserUseCases {
     const tmp_dto = await this.repository.FindOne(login.username);
     const e_user = new User(tmp_dto as UserDTO);
 
-    if (Services.isMatch(login.password, e_user.validUserDto.final_password))
+    if (Services.isMatch(login.password, e_user.validUserDto.final_password!))
       e_user.authentication = true;
 
     return e_user;

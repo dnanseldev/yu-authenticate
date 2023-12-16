@@ -44,8 +44,8 @@ export default class MongoDBUserRepository
     throw new Error("Method not implemented.");
   }
 
-  async FindOne(field: string): Promise<UserDTO | Partial<UserDTO>> {
-    const userExists = await UserModel.findOne({ field });
+  async FindOne(f_username: string): Promise<UserDTO | Partial<UserDTO>> {
+    const userExists = await UserModel.findOne({ username: f_username });
     const user_dto: Partial<UserDTO> = {
       id: userExists?.id!,
       name: userExists?.name!,
@@ -54,6 +54,7 @@ export default class MongoDBUserRepository
       username: userExists?.username!,
       user_organization: userExists?.user_organization!,
       email: userExists?.email!,
+      final_password: userExists?.password!,
     };
     return user_dto;
   }

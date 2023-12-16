@@ -3,6 +3,7 @@ import { UserDTO } from "../../domain/entities/user/user.entity";
 import MongoDBUserRepository from "./mongodb-user.repository";
 
 describe.only("Testing Concrete User Repository", () => {
+  /*
   const strCon = process.env.DB_STR_CON ?? "";
   let mongoCli: Mongoose;
 
@@ -13,10 +14,7 @@ describe.only("Testing Concrete User Repository", () => {
   afterAll(async () => {
     await mongoCli.connection.close();
   });
-
-  afterAll(async () => {
-    await mongoCli.connection.close();
-  });
+  */
 
   const rep = new MongoDBUserRepository();
 
@@ -66,5 +64,11 @@ describe.only("Testing Concrete User Repository", () => {
     );
     console.log(dto);
     expect(dto).toEqual(mockUser);
+  });
+
+  test.skip("FindOne method", async () => {
+    const dto = await rep.FindOne("smith");
+    console.log(dto);
+    //expect(dto).toEqual(mockUser);
   });
 });
