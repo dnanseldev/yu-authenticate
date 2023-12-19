@@ -29,7 +29,9 @@ export default class UserUseCases {
   }
 
   async authorizeUser(user: User): Promise<boolean> {
-    const newTkn = Services.generateToken(user.user_args_dto.id);
+    const newTkn = Services.generateToken(user.user_args_dto);
+    //const strBuffer = Services.stringToArrayBuffer(newTkn);
+    //user.newToken = Services.base64url_encode(strBuffer);
     user.newToken = newTkn;
     return true;
   }

@@ -48,6 +48,7 @@ export class User {
     this.project_roles = user_args_dto.project_roles;
     this.fields_state = user_args_dto.fields_state;
     this.is_authenticated = user_args_dto.is_authenticated;
+    this.token = user_args_dto.token;
   }
 
   set newPassword(crypted_password: any) {

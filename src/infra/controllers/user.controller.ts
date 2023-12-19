@@ -24,6 +24,7 @@ export default class UserController {
       res.status(201).json({
         status: "success",
         data: {
+          token: user.validUserDto.token,
           user: user.validUserDto,
         },
       });
