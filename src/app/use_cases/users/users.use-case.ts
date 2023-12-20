@@ -13,7 +13,7 @@ export default class UserUseCases {
   }
 
   async doLogin(login: Login): Promise<User> {
-    const tmp_dto = await this.repository.FindOne(login.username);
+    const tmp_dto = await this.repository.FindOne(login.email);
     const e_user = new User(tmp_dto as UserDTO);
     e_user.newPassword = tmp_dto.final_password;
 
@@ -30,8 +30,6 @@ export default class UserUseCases {
 
   async authorizeUser(user: User): Promise<boolean> {
     const newTkn = Services.generateToken(user.user_args_dto);
-    //const strBuffer = Services.stringToArrayBuffer(newTkn);
-    //user.newToken = Services.base64url_encode(strBuffer);
     user.newToken = newTkn;
     return true;
   }
@@ -57,5 +55,12 @@ export default class UserUseCases {
     });
 
     return ret;
+  }
+
+  async userAlreadyExists(email: string): Promise<boolean> {
+    const tmp_dto = await this.repository.FindOne(email);
+    //if (tmp_dto) return true;
+    //else return false;
+    return tmp_dto.id !== undefined ? true : false;
   }
 }

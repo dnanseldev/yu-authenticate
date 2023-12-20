@@ -82,7 +82,7 @@ export class User {
       complement: this.complement,
       username: this.username,
       user_organization: this.user_organization,
-      tmp_password: "",
+      tmp_password: "_",
       token: this.token,
       final_password: this.final_password,
       created_at: this.created_at,
