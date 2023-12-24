@@ -5,7 +5,6 @@ import { User, UserDTO } from "../../domain/entities/user/user.entity";
 import { UserFactory } from "../../domain/patterns/factories";
 import { Result } from "../../domain/patterns/result";
 import { Login } from "../../domain/vo/types.utils";
-import Services from "../../app/use_cases/services/services";
 
 export default class UserController {
   user_ue: UserUseCases;
@@ -76,6 +75,19 @@ export default class UserController {
       });
 
       console.log(user.validUserDto);
+    }
+  };
+
+  updateUser = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const userId = req.params.id;
+      const updates = req.body;
+      await this.user_ue.updateUser(userId, updates);
+      res.status(201).json({
+        status: "Updated successfully",
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Something went wrong" });
     }
   };
 

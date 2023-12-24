@@ -32,8 +32,10 @@ export default class MongoDBUserRepository
     return item;
   }
 
-  Update(id: string, item: UserDTO): Promise<void> {
-    throw new Error("Method not implemented.");
+  async Update(id: string, item: Partial<UserDTO>): Promise<void> {
+    const user = await UserModel.findOneAndUpdate({ _id: id }, item, {
+      new: true,
+    });
   }
 
   Delete(id: string): Promise<void> {
@@ -76,6 +78,4 @@ export default class MongoDBUserRepository
   FindAll(): Promise<UserDTO[]> {
     throw new Error("Method not implemented.");
   }
-
-  //Exists(username: string): Promise<UserDTO[]> {}
 }

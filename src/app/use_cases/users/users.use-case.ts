@@ -63,4 +63,20 @@ export default class UserUseCases {
     //else return false;
     return tmp_dto.id !== undefined ? true : false;
   }
+
+  async getUserById(id: string): Promise<UserDTO | Partial<UserDTO>> {
+    const tmp_dto = await this.repository.FindById(id);
+
+    return tmp_dto;
+  }
+
+  async getUserByEmail(email: string): Promise<UserDTO | Partial<UserDTO>> {
+    const tmp_dto = await this.repository.FindOne(email);
+
+    return tmp_dto;
+  }
+
+  async updateUser(id: string, user_data: Partial<UserDTO>): Promise<void> {
+    await this.repository.Update(id, user_data);
+  }
 }
