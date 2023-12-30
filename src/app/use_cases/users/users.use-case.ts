@@ -79,4 +79,8 @@ export default class UserUseCases {
   async updateUser(id: string, user_data: Partial<UserDTO>): Promise<void> {
     await this.repository.Update(id, user_data);
   }
+
+  async deleteUserById(id: string): Promise<void> {
+    await this.repository.Delete(id);
+  }
 }

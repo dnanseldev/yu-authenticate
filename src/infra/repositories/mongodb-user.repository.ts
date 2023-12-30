@@ -38,8 +38,8 @@ export default class MongoDBUserRepository
     });
   }
 
-  Delete(id: string): Promise<void> {
-    throw new Error("Method not implemented.");
+  async Delete(id: string): Promise<void> {
+    await UserModel.deleteOne({ _id: id });
   }
 
   Find(item: UserDTO): Promise<UserDTO[]> {

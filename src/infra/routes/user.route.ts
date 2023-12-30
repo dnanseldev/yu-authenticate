@@ -13,9 +13,12 @@ export default class UserRoute {
     this.uc = new UserController();
 
     this.router.get(`${API_URL}/users`, this.uc.TestBase);
-    this.router.patch(`${API_URL}/users/:id`, this.uc.updateUser);
     this.router.post(`${API_URL}/users/login`, this.uc.doLogin);
-    this.router.post(`${API_URL}/users`, this.uc.addUser);
+
+    this.router.post(`${API_URL}/users`, this.uc.createUser);
+    this.router.get(`${API_URL}/users/:id`, this.uc.readUser);
+    this.router.patch(`${API_URL}/users/:id`, this.uc.updateUser);
+    this.router.get(`${API_URL}/users/:id`, this.uc.deleteUser);
   }
 
   public get routes(): Router {

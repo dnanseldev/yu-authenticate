@@ -28,7 +28,7 @@ export default class UserController {
 
       const { token, ...resp_user2 } = resp_user;
 
-      res.status(201).json({
+      res.status(200).json({
         status: "success",
         data: {
           token,
@@ -42,7 +42,7 @@ export default class UserController {
     }
   };
 
-  addUser = async (req: Request, res: Response): Promise<void> => {
+  createUser = async (req: Request, res: Response): Promise<void> => {
     const user_dto = req.body as UserDTO;
     user_dto.fields_state.invalid_qty = 0;
     const user_exists = await this.user_ue.userAlreadyExists(user_dto.email);
@@ -78,13 +78,40 @@ export default class UserController {
     }
   };
 
+  readUser = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const user_id = req.params.id;
+      const user_dto = await this.user_ue.getUserById(user_id);
+      res.status(200).json({
+        status: "success",
+        data: {
+          user: user_dto,
+        },
+      });
+    } catch (error) {
+      res.status(400).json({ error: "Something went wrong" });
+    }
+  };
+
   updateUser = async (req: Request, res: Response): Promise<void> => {
     try {
       const userId = req.params.id;
       const updates = req.body;
       await this.user_ue.updateUser(userId, updates);
-      res.status(201).json({
+      res.status(204).json({
         status: "Updated successfully",
+      });
+    } catch (error) {
+      res.status(500).json({ error: "Something went wrong" });
+    }
+  };
+
+  deleteUser = async (req: Request, res: Response): Promise<void> => {
+    try {
+      const userId = req.params.id;
+      await this.user_ue.deleteUserById(userId);
+      res.status(202).json({
+        status: "Deleted successfully",
       });
     } catch (error) {
       res.status(500).json({ error: "Something went wrong" });
